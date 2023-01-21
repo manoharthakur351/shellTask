@@ -1,0 +1,18 @@
+# ignore config file
+config.ini
+
+# ignore enviroment
+env/
+
+# ignore queries
+querries/
+
+# ignore test files
+test/
+
+# ignore compiled python files
+*.pyc
+
+# ignore __pycache__ directories
+__pycache__/
+
