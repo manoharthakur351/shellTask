@@ -1,0 +1,6 @@
+#!/bin/bash
+
+git status
+git add --a
+git commit
+git status
