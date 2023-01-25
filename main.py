@@ -11,6 +11,7 @@ from prettytable import PrettyTable
 config = configparser.ConfigParser()
 config.read("config.ini")
 
+# CLASSES (incomplete)============================================================================================================--
 
 class task:
     STATUS = None
@@ -57,7 +58,7 @@ class Day:
     pass
 
 
-# FUNCTIONS--------------------------------------------------------------------------------------------------------------
+# FUNCTIONS============================================================================================================--
 
 # delete goal
 def delete_goal(cursor, conn):
@@ -68,9 +69,10 @@ def delete_goal(cursor, conn):
         conn.commit()
     except:
         print("[!] ERROR! unable to delete goal.")
+        input("")
     return
 
-
+# new goal: create new goal
 def newgoal(cursor, conn):
     name = input("\t name: ")
     dead = input("\t deadline: ")
@@ -78,10 +80,14 @@ def newgoal(cursor, conn):
     try:
         cursor.execute(q)
         conn.commit()
-        return "success"
     except:
-        return "faliure"
+        print("[!] failed to add new goal named %s",(name))
+        input("[*] press enter to return to main menu")
+    return
 
+# view goal: viewing tasks in a goal
+def view_goal(cursor, conn):
+    return
 
 # clean screen with logo
 def clear():
@@ -123,7 +129,7 @@ def authentic():
     return (mydb, mycursor)
 
 
-# Main
+# MAIN ==========================================================================================================================================
 def main():
     clear()
 
@@ -140,7 +146,7 @@ def main():
 
         # options
         user.print_goals(mycursor)
-        print("[ ] Choose a operation:")
+        print("[ ] MAIN MENU:")
         print("  01: new goal")
         print("  02: remove goal")
         print("  03: view goal")
@@ -151,8 +157,7 @@ def main():
 
         # 1 adding new goal
         if choice == "01":
-            o = newgoal(mycursor, mydb)
-            input(o)
+            newgoal(mycursor, mydb)
 
         # 2 remove goal
         if choice == "02":
@@ -160,7 +165,7 @@ def main():
 
         # 3 view goal
         if choice == "03":
-            pass
+            view_goal(mycursor, mydb)
 
         # 4 edit goal
         if choice == "04":
