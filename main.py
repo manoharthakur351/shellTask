@@ -4,6 +4,7 @@ import mysql.connector
 import os
 import hashlib
 import configparser
+import getpass
 from prettytable import PrettyTable
 
 # some basic initialisations
@@ -90,22 +91,36 @@ def clear():
 
 
 # authentication
-def authentic(cursor):
-    username = input("username: ")
-    pass_str = input("password: ")
+def authentic():
+    username = input("\t username: ")
+    pass_str = getpass.getpass("\t password: ")
+
+    try:
+        mydb = mysql.connector.connect(
+            host=config["DATABASE"]["host"],
+            user=username,
+            password=pass_str,
+            database="shelltask",
+        )
+    except:
+        print("[!] sonething went wrong")
+
+    mycursor = mydb.cursor()
+
     querry = (
         f"select * from users where username='{username}' and password='{pass_str}'"
     )
     # print(querry)
-    cursor.execute(querry)
-    result = cursor.fetchone()
+    mycursor.execute(querry)
+    result = mycursor.fetchone()
     if result:
         print("Welcome, " + username)
     else:
         print("Incorrect username or password.")
         clear()
         print("incorrect username or password")
-        authentic(cursor)
+        authentic()
+    return (mydb, mycursor)
 
 
 # Main
@@ -115,20 +130,9 @@ def main():
     # initialisations
     table = PrettyTable(["id", "goal", "dead line"])
 
-    # connection object
-    mydb = mysql.connector.connect(
-        host=config["DATABASE"]["host"],
-        user="u0_a74",
-        password="0000",
-        database="shelltask",
-    )
-
-    mycursor = mydb.cursor()
-
-    # authenticate
-    authentic(mycursor)
+    # authentication
+    mydb, mycursor = authentic()
     user = User()
-    clear()
 
     # mainloop
     while True:
@@ -143,7 +147,7 @@ def main():
         print("  04: edit goal")
         print()
 
-        choice = input("[*] Choice >_ ")
+        choice = input("\t Choice >_ ")
 
         # 1 adding new goal
         if choice == "01":

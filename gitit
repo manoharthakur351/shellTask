@@ -4,3 +4,4 @@ git status
 git add --a
 git commit
 git status
+git push -u
