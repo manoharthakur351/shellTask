@@ -16,8 +16,7 @@ y = (3,8,5,9,4,9)
 # FUNCTIONS
 # data_valid: check wheather data is valid or not
 def data_valid(x = None, y = None, xy = None):
-    if xy == None :
-        print()
+    print()
 # MAIN
 def proplot ():
     pass
